@@ -1,0 +1,424 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  annotations:
+    description: Build template for a VC controller written in .NET Core.
+    tags: dotnet
+    iconClass: icon-dotnet
+  name: "${PREFIX}${NAME}-build-template"
+objects:
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: "${PREFIX}${NAME}"
+    labels:
+      name: "${PREFIX}${NAME}"
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: "${PREFIX}${NAME}"
+    labels:
+      name: "${PREFIX}${NAME}"
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+  spec:
+    source:
+      type: Git
+      git:
+        uri: "${GIT_REPO_URL}"
+        ref: "${GIT_REF}"
+      contextDir: "${SOURCE_CONTEXT_DIR}"
+    strategy:
+      type: Docker
+      dockerStrategy:
+        dockerfilePath: "${DOCKER_FILE_PATH}"
+    output:
+      to:
+        kind: ImageStreamTag
+        name: "${PREFIX}${NAME}:${OUTPUT_IMAGE_TAG}"
+    triggers:
+    - type: ConfigChange
+- kind: NetworkSecurityPolicy
+  apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+  metadata:
+    name: pods-to-external-network
+    labels:
+      name: pods-to-external-network
+      env: "${ENV_NAME}"
+  spec:
+    description: |
+      Allow the builds to access the internet.
+      This only needs to be specified once per environment.
+    source:
+    - - "$namespace=${NAMESPACE_NAME}-${ENV_NAME}"
+    destination:
+    - - ext:network=any
+- kind: Secret
+  apiVersion: v1
+  metadata:
+    name: "${PREFIX}${NAME}"
+    labels:
+      name: "${PREFIX}${NAME}"
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+  stringData:
+    controller-api-key: "${CONTROLLER_API_KEY}"
+  type: Opaque
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: "${PREFIX}${NAME}"
+    labels:
+      name: "${PREFIX}${NAME}"
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+  spec:
+    replicas: 1
+    selector:
+      app: "${APP_GROUP}"
+      name: "${PREFIX}${NAME}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: "${APP_GROUP}"
+          name: "${PREFIX}${NAME}"
+          role: "${PREFIX}${ROLE}"
+          env: "${TAG_NAME}"
+      spec:
+        volumes:
+        - name: "${PREFIX}${NAME}-data"
+          persistentVolumeClaim:
+          claimName: "${PREFIX}${NAME}"
+        containers:
+        - image: "${PREFIX}${NAME}"
+          imagePullPolicy: Always
+          name: "${PREFIX}${NAME}"
+          ports:
+          - containerPort: 5000
+            protocol: TCP
+          env:
+          - name: IdentityServer__ConnectionStrings__Database
+            value: "${IDENTITY_SERVER_DB_CONNECTION_STRING}"
+          - name: IdentityServer__CertificateFilename
+            value: "${CONTROLLER_CERTIFICATE_FILE_PATH}"
+          - name: IdentityServer__PublicOrigin
+            value: https://${APPLICATION_DOMAIN}
+          - name: ACAPY__AdminUrl
+            value: "${AGENT_ADMIN_URL}"
+          - name: ACAPY__AgentUrl
+            value: "${AGENT_PUBLIC_URL}"
+          - name: UrlShortenerService__ConnectionStrings__Database
+            value: "${URL_SHORTENER_DATABASE_CONNECTION_STRING}"
+          - name: UrlShortenerService__BaseUrl
+            value: https://${APPLICATION_DOMAIN}/url
+          - name: SessionStorageService__ConnectionStrings_Database
+            value: "${SESSION_STORAGE_SERVICE_DATABASE_CONNECTION_STRING}"
+          - name: SwaggerEnabled
+            value: "${SWAGGER_ENABLED}"
+          - name: ApiKey
+            valueFrom:
+              secretKeyRef:
+                name: "${PREFIX}${NAME}"
+                key: controller-api-key
+          - name: ACAPY__AdminURLApiKey
+            valueFrom:
+              secretKeyRef:
+                name: vc-authn-agent
+                key: admin-api-key
+          - name: ASPNETCORE_URLS
+            value: "${ASPNETCORE_URLS}"
+          resources:
+            requests:
+              cpu: "${CPU_REQUEST}"
+              memory: "${MEMORY_REQUEST}"
+            limits:
+              cpu: "${CPU_LIMIT}"
+              memory: "${MEMORY_LIMIT}"
+          volumeMounts:
+          - name: "${PREFIX}${NAME}-data"
+            mountPath: "${MOUNT_PATH}"
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - "${PREFIX}${NAME}"
+        from:
+          kind: ImageStreamTag
+          name: "${PREFIX}${NAME}:${OUTPUT_IMAGE_TAG}"
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: "${PREFIX}${NAME}"
+    labels:
+      name: "${PREFIX}${NAME}"
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+  spec:
+    storageClassName: "${PERSISTENT_VOLUME_CLASS}"
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: "${PERSISTENT_VOLUME_SIZE}"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: "${PREFIX}${NAME}"
+    labels:
+      name: "${PREFIX}${NAME}"
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+  spec:
+    ports:
+    - name: "${PREFIX}${NAME}"
+      port: 5000
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      name: "${PREFIX}${NAME}"
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: "${PREFIX}${NAME}"
+    labels:
+      name: "${PREFIX}${NAME}"
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+  spec:
+    host: "${APPLICATION_DOMAIN}"
+    port:
+      targetPort: "${PREFIX}${NAME}"
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: "${PREFIX}${NAME}"
+      weight: 100
+- kind: NetworkSecurityPolicy
+  apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+  metadata:
+    name: custom-${APP_NAME}-pods-to-api
+    labels:
+      name: custom-${APP_NAME}-pods-to-api
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+  spec:
+    description: |
+      Allow pods to talk to the internal api so deployments work.
+      This only needs to be specified once per environment.
+    source:
+    - - "$namespace=${NAMESPACE_NAME}-${TAG_NAME}"
+    destination:
+    - - int:network=internal-cluster-api-endpoint
+- kind: NetworkSecurityPolicy
+  apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+  metadata:
+    name: custom-${APP_NAME}-${NAME}-policy
+    labels:
+      name: custom-${APP_NAME}-${NAME}-policy
+      app: "${APP_NAME}"
+      app-group: "${APP_GROUP}"
+      role: "${PREFIX}${ROLE}"
+      env: "${TAG_NAME}"
+  spec:
+    description: 'Allow the controller to talk to either the database or agent micro services.'
+    source:
+    - - role=${PREFIX}${ROLE}
+      - app=${APP_NAME}
+      - env=${TAG_NAME}
+      - "$namespace=${NAMESPACE_NAME}-${TAG_NAME}"
+    destination:
+    - - role=${PREFIX}db
+      - app=${APP_NAME}
+      - env=${TAG_NAME}
+      - "$namespace=${NAMESPACE_NAME}-${TAG_NAME}"
+    - - role=${PREFIX}agent
+      - app=${APP_NAME}
+      - env=${TAG_NAME}
+      - "$namespace=${NAMESPACE_NAME}-${TAG_NAME}"
+parameters:
+- name: NAME
+  displayName: Name
+  description: The name assigned to all of the objects defined in this template. You should keep this as default unless your know what your doing.
+  required: true
+  value: controller
+- name: APP_NAME
+  displayName: App Name
+  description: Used to group components together in the OpenShift console.
+  required: true
+  value: vc-authn-oidc
+- name: APP_GROUP
+  displayName: App Group
+  description: The name assigned to all of the components in this project.
+  required: true
+  value: vc-authn-oidc
+- name: PREFIX
+  displayName: Prefix
+  description: A name prefix used for all objects
+  required: false
+  value: vc-authn-
+- name: NAMESPACE_NAME
+  displayName: Namespace Name
+  description: The name of the namespace being deployed to.
+  required: true
+  value: admgjk
+- name: ENV_NAME
+  displayName: Environment Name
+  description: Environment name. For the build environment this will typically be 'tools'.
+  required: true
+  value: tools
+- name: GIT_REPO_URL
+  displayName: Git Repo URL
+  description: The URL to your GIT repo, don't use the this default unless your just experimenting.
+  required: true
+  value: https://github.com/bcgov/vc-authn-oidc.git
+- name: GIT_REF
+  displayName: Git Reference
+  description: The git reference or branch.
+  required: true
+  value: master
+- name: SOURCE_CONTEXT_DIR
+  displayName: Source Context Directory
+  description: The source context directory.
+  required: true
+  value: "."
+- name: DOCKER_FILE_PATH
+  displayName: Docker File Path
+  description: The path to the docker file defining the build.
+  required: false
+  value: docker/oidc-controller/Dockerfile
+- name: OUTPUT_IMAGE_TAG
+  displayName: Output Image Tag
+  description: The tag given to the built image.
+  required: true
+  value: latest
+- name: ROLE
+  displayName: Role
+  description: The role of this service within the application - used for Network Policies
+  required: true
+  value: controller
+- name: TAG_NAME
+  displayName: Environment TAG name
+  description: The TAG name for this environment, e.g., dev, test, prod.
+  required: true
+  value: dev
+- name: IDENTITY_SERVER_DB_CONNECTION_STRING
+  displayName: Database Connection String
+  description: The connection string to use to connect to the database.
+  required: true
+  value: Host=vc-authn-database;Port=5432;Database=vc_authn;Username=DB_USER;Password=DB_PASSWORD;
+- name: APPLICATION_DOMAIN
+  displayName: Application Hostname
+  description: The exposed hostname that will route to the service, e.g., myappname.pathfinder.gov.bc.ca, if left blank a value will be defaulted.
+  required: false
+  value: ''
+- name: AGENT_ADMIN_URL
+  displayName: The controller agent admin URL
+  description: The controller agent admin URL
+  required: true
+  value: http://vc-authn-agent:8024
+- name: AGENT_PUBLIC_URL
+  displayName: The controller agent public URL
+  description: The controller agent public URL
+  required: true
+  value: 'http://contoso.com'
+- name: URL_SHORTENER_DATABASE_CONNECTION_STRING
+  displayName: URL Shortening Service Connection URL
+  description: URL Shortening Service Connection string.
+  required: true
+  value: Host=vc-authn-database;Port=5432;Database=vc_authn;Username=DB_USER;Password=DB_PASSWORD;
+- name: SESSION_STORAGE_SERVICE_DATABASE_CONNECTION_STRING
+  displayName: Session Storage Service DB
+  description: Session Storage Service DB connection string.
+  required: true
+  value: Host=vc-authn-database;Port=5432;Database=vc_authn;Username=DB_USER;Password=DB_PASSWORD;
+- name: CONTROLLER_CERTIFICATE_FILE_PATH
+  displayName: Certificate File Path
+  description: File path to the RSA certificate.
+  required: true
+  value: "/controller-data/secret.rsa"
+- name: ASPNETCORE_URLS
+  displayName: ASP.Net Core URLs
+  description: ASP.Net Core URLs.
+  required: true
+  value: http://*:8080
+- name: CONTROLLER_API_KEY
+  displayName: Controller API key
+  description: API key for the OIDC controller
+  required: true
+  generate: "expression"
+  from: "[a-zA-Z0-9]{16}"
+- name: SWAGGER_ENABLED
+  displayName: Swagger Enabled
+  description: Flag controlling whether the Swagger API interface should be enabled.
+  required: false
+  value: 'true'
+- name: MOUNT_PATH
+  displayName: Mount Path
+  description: The path to mount the persistent volume.
+  required: true
+  value: "/controller-data"
+- name: PERSISTENT_VOLUME_SIZE
+  displayName: Persistent Volume Size
+  description: The size of the persistent volume, e.g. 512Mi, 1Gi, 2Gi.
+  required: true
+  value: 1Gi
+- name: PERSISTENT_VOLUME_CLASS
+  displayName: Persistent Volume Class name
+  description: The class of the volume.
+  required: true
+  value: ocs-storagecluster-ceph-rbd
+- name: CPU_REQUEST
+  displayName: Resources CPU Request
+  description: The resources CPU request (in cores) for this build.
+  required: true
+  value: 10m
+- name: CPU_LIMIT
+  displayName: Resources CPU Limit
+  description: The resources CPU limit (in cores) for this build.
+  required: true
+  value: 500m
+- name: MEMORY_REQUEST
+  displayName: Resources Memory Request
+  description: The resources Memory request (in Mi, Gi, etc) for this build.
+  required: true
+  value: 128Mi
+- name: MEMORY_LIMIT
+  displayName: Resources Memory Limit
+  description: The resources Memory limit (in Mi, Gi, etc) for this build.
+  required: true
+  value: 512Mi

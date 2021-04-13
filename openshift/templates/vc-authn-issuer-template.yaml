@@ -1,0 +1,127 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: vc-authn-issuer
+  annotations:
+    description: Émetteur d'attestation d'authentification.
+    tags: cqen, experimentation, sqin, aries
+objects:
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: vc-authn-issuer
+- kind: BuildConfig 
+  apiVersion: v1
+  metadata:
+    annotations:
+      app.openshift.io/vcs-ref: master
+      app.openshift.io/vcs-uri: git@github.com:CQEN-QDCE/vc-authn-issuer.git
+      template.alpha.openshift.io/wait-for-ready: "true"
+    labels:
+      app: vc-authn-issuer
+    name: vc-authn-issuer
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: vc-authn-issuer:latest
+    source:
+      contextDir: /
+      git:
+        ref: master
+        uri: git@github.com:CQEN-QDCE/vc-authn-issuer.git
+      type: Git
+      sourceSecret:
+        name: vc-authn-issuer
+    strategy:
+      dockerStrategy:
+        dockerfilePath: Dockerfile
+      type: Docker
+    triggers:
+    - type: ConfigChange
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: vc-authn-issuer
+    labels:
+      app: vc-authn-issuer
+  spec:
+    strategy:
+      type: Rolling
+      rollingParams:
+        updatePeriodSeconds: 1
+        intervalSeconds: 1
+        timeoutSeconds: 600
+        maxUnavailable: 25%
+        maxSurge: 25%
+      resources: {}
+      activeDeadlineSeconds: 21600
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - vc-authn-issuer
+          from:
+            kind: ImageStreamTag
+            name: 'vc-authn-issuer:latest'
+    replicas: 1
+    revisionHistoryLimit: 10
+    test: false
+    selector:
+      app: vc-authn-issuer
+    template:
+      metadata:
+        labels:
+          app: vc-authn-issuer
+      spec:
+        containers:
+          - name: vc-authn-issuer
+            image: " "
+            ports:
+              - containerPort: 10000
+                protocol: TCP
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: vc-authn-issuer
+  spec:
+    selector:
+      app: vc-authn-issuer
+    ports:
+      - name: '10000'
+        protocol: TCP
+        port: 10000
+        targetPort: 10000
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: vc-authn-issuer
+  spec:
+    host: vc-authn-issuer.apps.exp.lab.pocquebec.org
+    to:
+      kind: Service
+      name: vc-authn-issuer
+      weight: 100
+    port:
+      targetPort: 10000
+    wildcardPolicy: None
+  status:
+    ingress:
+      - host: vc-authn-issuer.apps.exp.lab.pocquebec.org
+        routerName: default
+        conditions:
+          - type: Admitted
+            status: 'True'
+        wildcardPolicy: None
+        routerCanonicalHostname: apps.exp.lab.pocquebec.org

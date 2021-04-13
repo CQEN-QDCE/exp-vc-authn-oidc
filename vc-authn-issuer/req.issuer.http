@@ -1,0 +1,35 @@
+##############################################################
+# Requetes http pour l'émeteur d'attestations d'identité
+##############################################################
+@hostname = http://vc-authn-agent-admin.apps.exp.lab.pocquebec.org
+
+#### 
+#### Créer un schema d'attestation d'authentification
+####
+POST {{hostname}}/schemas HTTP/1.1
+X-API-Key: [a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]{16}
+Content-Type: application/json
+
+{
+  "schema_version": "1.0",
+  "attributes": [
+    "username",
+    "email",
+    "first_name",
+    "last_name"
+  ],
+  "schema_name": "CQEN_AUTHENTICATION"
+}
+
+####
+#### Créer la définition d'une attestation d'authentification.
+####
+POST {{hostname}}/credential-definitions HTTP/1.1
+Content-Type: application/json
+X-API-Key: secret
+
+{
+  "support_revocation": false,
+  "tag": "vc-authn-oidc",
+  "schema_id": "XpHQgyg7Dd4WerGtGCL3KN:2:CQEN_AUTHENTICATION:1.0"
+}

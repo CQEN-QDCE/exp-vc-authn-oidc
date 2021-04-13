@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "debug-start",
+        "type": "shell",
+        "command": "npm run debug",
+        "isBackground": true,
+        "problemMatcher": {
+          "fileLocation": "relative",
+          "pattern": {
+            "regexp": "^$"
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^$",
+            "endsPattern": "^You can now view (.*) in the browser.$"
+          }
+        }
+      },
+      {
+        "label": "debug-stop",
+        "command": "echo ${input:terminate}",
+        "type": "shell"
+      },
+    ],
+    "inputs": [
+      {
+        "id": "terminate",
+        "type": "command",
+        "command": "workbench.action.tasks.terminate",
+        "args": "debug-start"
+      }
+    ]
+  }

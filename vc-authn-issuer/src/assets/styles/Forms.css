@@ -1,0 +1,41 @@
+.FormBox{
+    padding: 1em;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    border: 1px solid #FCF8F7;
+    border-radius: .5em;
+    
+  }
+  
+  .header{
+    background: #1c0cf5;
+    padding: 30px 25px;
+    font-size: 30px;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 3px 3px 0 0;
+}
+
+.inputField[type="text"]:hover {
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+.inputField[type="date"]:hover {
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+.inputField[type="date"]:focus {
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+.inputField[type="text"]:focus {
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}

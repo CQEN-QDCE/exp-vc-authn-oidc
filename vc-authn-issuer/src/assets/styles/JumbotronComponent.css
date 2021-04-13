@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css?family=Acme|Lobster|Patua+One|Rubik|Sniglet");
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  overflow-x: hidden;
+  display: flex;
+}
+
+:root {
+  --Sniglet-font: "Sniglet", cursive;
+  --Rubik: "Rubik", cursive;
+  --Patua: "Patua One", cursive;
+  --Lobster: "lobster", cursive;
+  --light-black: #2e2c2caf;
+  --bggradient: linear-gradient(to bottom, #2465dd, #322fff);
+  --light-gray: rgba(255, 255, 255, 0.877);
+}
+
+
+header .row .col-md-7 {
+  padding: 30vmin 1vmin;
+  padding-bottom: 35vmin;
+  background-repeat:no-repeat;
+
+
+}
+
+header .row .col-md-5 {
+  padding: 4.2vmin 1vmin;
+ 
+}
+
+header .row .col-md-5 img {
+  width: 90%;
+  background-repeat:no-repeat;
+}
+
+header {
+  
+   /* background: #ff512f;  */
+  /* fallback for old browsers */
+ /* background: var(--bggradient);  */
+}
+
+header .container .col-md-7 {
+  font-family: "Rubik", sans-serif;
+}
+
+header .container .col-md-7 h6 {
+  padding: 1vmin;
+  letter-spacing: 4px;
+}
+
+header .container .col-md-7 h1 {
+  font-size: 8.5vmin;
+  font-weight: bold;
+  padding: 0.1em 0em;
+}
+
+header .container .col-md-7 p {
+  padding: 1vmin 5vmin;
+}
+
+.primary-btn {
+  border-radius: 30px;
+  font-weight: bold;
+}

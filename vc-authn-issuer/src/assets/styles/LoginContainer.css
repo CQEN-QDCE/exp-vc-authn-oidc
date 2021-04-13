@@ -1,0 +1,62 @@
+.App {
+    width: 100%;  
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+  /* margin-top: 100px; */
+}
+
+.Root{
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form {
+  padding: 1em;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+  border: 1px solid #FCF8F7;
+  border-radius: .5em;
+  width: 500px;
+  
+}
+.inputField[type="email"]:hover {
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+.inputField[type="email"]:focus {
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+.inputField[type="password"]:focus{
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+.inputField[type="password"]:hover{
+    border: 1px solid #1c0cf5;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: flex;
+  font-weight: 600;
+}
+
+.btny {
+    color: #FF4C4C;
+    border: 1px solid #FF4C4C;
+    border-radius: .5em;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+
