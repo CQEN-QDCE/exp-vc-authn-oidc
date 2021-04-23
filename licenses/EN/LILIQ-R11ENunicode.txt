@@ -1,9 +1,9 @@
-Québec Free and Open-Source Licence – Permissive (LiLiQ-P)
+﻿Québec Free and Open-Source Licence – Reciprocity (LiLiQ-R)
 
 Version 1.1
 
 1. Preamble
-This licence applies to any distributed software stipulated by its copyright owner to be subject to the terms of the Québec Free and Open-Source Licence – Permissive (LiLiQ-P) (hereinafter referred to as the “licence”).
+This licence applies to any distributed software stipulated by its copyright owner to be subject to the terms of the Québec Free and Open-Source Licence – Reciprocity (LiLiQ-R) (hereinafter referred to as the “licence”).
 
 2. Definitions
 Unless the context indicates otherwise, the following terms are used in this licence:
@@ -21,7 +21,6 @@ Subject to the terms of this licence, the licensor grants the licensee a non-exc
 (1) Produce or reproduce the software or a substantial part thereof;
 (2) Perform the software or any substantial part of it in public;
 (3) Publish the software or any substantial part of it.
-(4) Sub-license under another free or open-source licence approved or certified by the Free Software Foundation or the Open Source Initiative.
 
 This licence is granted on a world-wide, perpetual basis.
 
@@ -32,6 +31,30 @@ The licensee may distribute copies of the software, modified software or derived
 (1) The software must be accompanied by a copy of this licence.
 (2) If the software has been modified, the licensee must mention this, preferably in every modified file that allows for such a mention.
 (3) Software copyright, trademark, warranty or attribution labels or notices must not be modified or removed, unless the labels or notices do not apply to specific modified or derived software.
+
+4.1. Reciprocity
+Every time the licensee distributes the software, the licensor grants the recipient an interest in the software in accordance with the terms of this licence. The licensee must grant an interest in accordance with the terms of this licence for any modified software distributed.
+
+Every time the licensee distributes the software or modified software, the licensee is obliged to distribute its source code in the manner prescribed in the third paragraph of section (3).
+
+4.2. Compatibility
+To the extent that the licensee wishes to distribute modified software combined with software subject to a compatible licence whose terms cannot possibly be fulfilled, the licensor offers, in addition to this interest, an interest in compliance with the terms of the compatible licence.
+
+A licensee who is the exclusive copyright owner of the software subject to a compatible licence is not eligible for this offer. The same applies to any other person duly authorized to sub-license by the exclusive copyright owner of the software subject to a compatible licence.
+
+A compatible licence is considered to be any free or open-source licence approved or certified by the Free Software Foundation or the Open Source Initiative, whose level of reciprocity is comparable to or greater than that of this licence, without being less so, in particular:
+(1) Common Development and Distribution License (CDDL-1.0)
+(2) Common Public License Version 1.0 (CPL-1.0)
+(3) Contrat de licence de logiciel libre CeCILL, version 2.1 (CECILL-2.1)
+(4) Contrat de licence de logiciel libre CeCILL-C (CECILL-C)
+(5) Eclipse Public License - v 1.0 (EPL-1.0)
+(6) European Union Public License, version 1.1 (EUPL v. 1.1)
+(7) Licence Libre du Québec – Réciprocité forte (Québec Free and Open-Source Licence – Strong Reciprocity) version 1.1 (LiLiQ-R+ 1.1) 
+(8) GNU General Public License Version 2 (GNU GPLv2)
+(9) GNU General Public License Version 3 (GNU GPLv3)
+(10) GNU Lesser General Public License Version 2.1 (GNU LGPLv2.1)
+(11) GNU Lesser General Public License Version 3 (GNU LGPLv3)
+(12) Mozilla Public License Version 2.0 (MPL-2.0)
 
 5. Contributions
 Subject to a separate agreement, every contribution submitted by a contributor to the licensor for inclusion in the software is subject to the terms of this licence.
@@ -50,7 +73,7 @@ The licensee is liable for any prejudice resulting from the exercise of the righ
 The licensor cannot be held liable for any prejudice sustained by the licensee or third parties for any reason whatsoever related to the licence and the rights it grants.
 
 9. Termination
-This licence is automatically terminated should the rights it grants fail to be exercised in accordance with the terms of the licence.
+This licence is terminated as of right should the rights it grants fail to be exercised in accordance with the terms of the licence.
 
 However, if the failure is remedied within 30 days after its discovery by the person in default and it is the first failure, the licence will be granted once again.
 
