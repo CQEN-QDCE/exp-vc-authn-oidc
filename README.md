@@ -1,6 +1,6 @@
 [![img](https://img.shields.io/badge/Cycle%20de%20Vie-Phase%20d%C3%A9couverte-339999)](https://www.quebec.ca/gouv/politiques-orientations/vitrine-numeriqc/accompagnement-des-organismes-publics/demarche-conception-services-numeriques)
 [![License](https://img.shields.io/badge/Licence-LiLiQ--R-blue)](LICENSE)
-# Authentification par attestation d'identitée vérifiable
+# Authentification par attestation d'identitée vérifiable via OpenID Connect
 Ce dépôt est le siège d'une expérimentation pour mettre en place l'authentification par [attestation d'identitée vérifiables](https://www.w3.org/TR/vc-data-model) via [OpenID Connect](https://openid.net/connect). 
 ## Table des matières
 
@@ -9,6 +9,7 @@ Ce dépôt est le siège d'une expérimentation pour mettre en place l'authentif
 2. [Contexte](#20-contexte)
 
 3. [Environnement d\'expérimentation](#30-environnement-dexpérimentation)
+---
 
 ## 1.0 Objectifs
 
@@ -16,6 +17,9 @@ Ce dépôt est le siège d'une expérimentation pour mettre en place l'authentif
 
 - Émettre des attestations d'identitée vérifiables d'authentification aux utilisateurs qui le désirent.
 
+- Démontrer la possibilité d'étendre le fournisseur OpenID standard (Keycloak) afin qu'il prenne en charge l'authentification à partir d'un justificatif d'identité vérifiable.
+
+- Configurer une partie dépendante (relying party)(Openshift) pour utiliser cette méthode d'authentification.
 ## 2.0 Contexte
 
 Une [attestation d'identitée vérifiable](https://www.w3.org/TR/vc-data-model) est essentiellement un ensemble d'affirmations délivrées par une autorité de confiance que l'on nomme habituellement: "Émetteur". Ces affirmations sont faites sur un sujet (une personne, une compagnie, etc.) de telle sorte que, lorsqu'elles sont présentées à un vérificateur, leur authenticité peut être vérifiée de manière cryptographique.
@@ -48,5 +52,5 @@ Le résultat final pour une partie utilisatrice est le même qu'avec le flux Ope
 ### Déploiment
 Voir les instructions de [déploiment sur OpenShift](openshift/templates/README.md).
 
-## Licence
-Distribué sous Licence Libre du Québec – Permissive (LiLiQ-P). Voir [LICENCE](licenses/LiLiQ-P11unicode.txt) pour plus d'informations.
+## 9.0 Licence
+Distribué sous Licence Libre du Québec – Réciprocité (LiLiQ-R). Voir [LICENCE](LICENSE) pour plus d'informations.
