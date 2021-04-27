@@ -106,7 +106,7 @@ Voici l\'architecture des composants nécessaires à haut niveau pour consommer 
 
 ## 4.0 Démarche
 
-1. Effectuer le [déploiment sur OpenShift](../../openshift/templates/README.md).
+1. Effectuer le [déploiment sur OpenShift](openshift/templates/README.md).
 
 2. Installer le porte-feuille d'identité numérique [esatus](https://esatus.com/esatus-ssi-wallet-app-ab-sofort-fuer-ios-und-android-verfuegbar/?lang=en) sur un téléphone mobile.
 
