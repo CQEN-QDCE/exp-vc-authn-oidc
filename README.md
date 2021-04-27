@@ -178,7 +178,7 @@ Par exemple, l\'attestation d\'identité d\'authentification pourrait être comp
 |Nom de l'attribut | Valeurs |
 |----------|---------|
 |username | user01 |
-|email | prénom.nom@sct.gouv.qc.ca |
+|email | prenom.nom@sct.gouv.qc.ca |
 |first_name | Prénom |
 |last_name | Nom |
 
