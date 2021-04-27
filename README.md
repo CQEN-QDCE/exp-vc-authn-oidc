@@ -92,7 +92,7 @@ Voir les instructions de [déploiment sur OpenShift](openshift/templates/README.
 10. Accepter l'attestation.
 
 <p align="center">
-  <img width="150" src="images/esatus-credential-accept.png" label="Accepter l'attestation" />
+  <img width="300" src="images/esatus-credential-accept.png" label="Accepter l'attestation" />
 </p>
 
 ![alt text](images/esatus-credential-offer.png)
