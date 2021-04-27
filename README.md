@@ -77,7 +77,9 @@ Voir les instructions de [déploiment sur OpenShift](openshift/templates/README.
 
 5. Saisir les informations demandées.
 
-![alt text](images/personal-infos.fr.png)
+<p align="center">
+  <img with="50" src="images/personal-infos.fr.png" label="Informations personnelles pour l'authentification" />
+</p>
 
 6. Cliquer sur le bouton "Émettre attestation".
 
