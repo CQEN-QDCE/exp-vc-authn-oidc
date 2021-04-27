@@ -1,7 +1,7 @@
 [![img](https://img.shields.io/badge/Cycle%20de%20Vie-Phase%20d%C3%A9couverte-339999)](https://www.quebec.ca/gouv/politiques-orientations/vitrine-numeriqc/accompagnement-des-organismes-publics/demarche-conception-services-numeriques)
 [![License](https://img.shields.io/badge/Licence-LiLiQ--R-blue)](LICENSE)
 # Authentification par attestation d'identitée vérifiable via OpenID Connect
-Ce dépôt est le siège d'une expérimentation pour mettre en place l'authentification par [attestation d'identitée vérifiables](https://www.w3.org/TR/vc-data-model) via [OpenID Connect](https://openid.net/connect). 
+Voici les travaux réalisés dans le cadre d'une expérimentation basée sur le concept de l'identité numérique. Le sujet: l'émission d'une [attestation d'identité vérifiable](https://www.w3.org/TR/vc-data-model) permettant l'authentification via [OpenID Connect](https://openid.net/connect). 
 ## Table des matières
 
 1. [Objectifs](#10-objectifs)
@@ -114,7 +114,9 @@ Voici l\'architecture des composants nécessaires à haut niveau pour consommer 
 
 5. Saisir les informations demandées.
 
-![alt text](images/personal-infos.fr.png)
+<p align="center">
+  <img width="500" src="images/personal-infos.fr.png" label="Informations personnelles pour l'authentification" />
+</p>
 
 6. Cliquer sur le bouton "Émettre attestation".
 
@@ -126,9 +128,13 @@ Voici l\'architecture des composants nécessaires à haut niveau pour consommer 
 
 10. Accepter l'attestation.
 
-![alt text](images/esatus-credential-accept.png)
+<p align="center">
+  <img width="400" src="images/esatus-credential-accept.png" label="Accepter l'attestation" />
+</p>
 
-![alt text](images/esatus-credential-offer.png)
+<p align="center">
+  <img width="400" src="images/esatus-credential-offer.png" label="Attestation émise" />
+</p>
 
 11. Accéder à la console [Openshift](https://console-openshift-console.apps.exp.lab.pocquebec.org/dashboards).
 
@@ -142,7 +148,9 @@ Voici l\'architecture des composants nécessaires à haut niveau pour consommer 
 
 16. Sur la page "Basic Proof", cliquer sur "Send".
 
-![alt text](images/esatus-send-proof.png)
+<p align="center">
+  <img width="400" src="images/esatus-send-proof.png" label="Demande de preuve" />
+</p>
 
 17. Sur la fenêtre "Sending successful", cliquer sur "Finish".
 
