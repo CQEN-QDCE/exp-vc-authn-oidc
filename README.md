@@ -92,10 +92,12 @@ Voir les instructions de [déploiment sur OpenShift](openshift/templates/README.
 10. Accepter l'attestation.
 
 <p align="center">
-  <img width="300" src="images/esatus-credential-accept.png" label="Accepter l'attestation" />
+  <img width="400" src="images/esatus-credential-accept.png" label="Accepter l'attestation" />
 </p>
 
-![alt text](images/esatus-credential-offer.png)
+<p align="center">
+  <img width="400" src="images/esatus-credential-offer.png" label="Attestation émise" />
+</p>
 
 11. Accéder à la console [Openshift](https://console-openshift-console.apps.exp.lab.pocquebec.org/dashboards).
 
