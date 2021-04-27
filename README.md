@@ -78,7 +78,7 @@ Voir les instructions de [déploiment sur OpenShift](openshift/templates/README.
 5. Saisir les informations demandées.
 
 <p align="center">
-  <img with="50" src="images/personal-infos.fr.png" label="Informations personnelles pour l'authentification" />
+  <img width="500" src="images/personal-infos.fr.png" label="Informations personnelles pour l'authentification" />
 </p>
 
 6. Cliquer sur le bouton "Émettre attestation".
@@ -111,7 +111,9 @@ Voir les instructions de [déploiment sur OpenShift](openshift/templates/README.
 
 16. Sur la page "Basic Proof", cliquer sur "Send".
 
-![alt text](images/esatus-send-proof.png)
+<p align="center">
+  <img width="400" src="images/esatus-send-proof.png" label="Demande de preuve" />
+</p>
 
 17. Sur la fenêtre "Sending successful", cliquer sur "Finish".
 
