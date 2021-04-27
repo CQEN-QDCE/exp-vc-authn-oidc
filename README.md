@@ -10,6 +10,8 @@ Voici les travaux réalisés dans le cadre d'une expérimentation basée sur le 
 
 3. [Environnement d\'expérimentation](#30-environnement-dexpérimentation)
 
+   1. [Conditions initiales et prémisses](#31-conditions-initiales-et-prémisses)
+
 4. [Démarche](#40-démarche)
 
 5. [Attestation d'identité numérique](#50-le-contenu-de-lattestation)
