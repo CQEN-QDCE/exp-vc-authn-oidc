@@ -175,10 +175,10 @@ Schema version: 1.0
 Par exemple, l\'attestation d\'identité d\'authentification pourrait être composée des valeurs suivantes:
 |Nom de l'attribut | Valeurs |
 |----------|---------|
-|username | stpm01 |
-|email | martin.st-pierre@sct.gouv.qc.ca |
-|first_name | Martin |
-|last_name | St-Pierre |
+|username | user01 |
+|email | prénom.nom@sct.gouv.qc.ca |
+|first_name | Prénom |
+|last_name | Nom |
 
 ---
 
