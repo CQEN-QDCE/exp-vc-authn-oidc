@@ -47,7 +47,7 @@ Le résultat final pour une partie utilisatrice est le même qu'avec le flux Ope
 ## 3.0 Environnement d\'expérimentation
 
 ### Construit avec
-* [C#](https://fr.reactjs.org), [React](https://fr.reactjs.org)
+* [C#](https://docs.microsoft.com/en-us/dotnet/csharp/), [React](https://fr.reactjs.org)
 
 ### Prérequis
 
