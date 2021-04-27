@@ -54,7 +54,7 @@ Le résultat final pour une partie utilisatrice est le même qu'avec le flux Ope
 * [npm](https://www.npmjs.com)
 * [Docker](https://www.docker.com)
 * [von-network](https://github.com/bcgov/von-network)
-* [esatus](https://apps.apple.com/ca/app/esatus-wallet/id1496769057)
+* [esatus](https://apps.apple.com/ca/app/esatus-wallet/id1496769057), [trinsic](https://apps.apple.com/ca/app/trinsic-wallet/id1475160728)
 * [ngrok](https://ngrok.com/)
 
 ### Facultatifs
