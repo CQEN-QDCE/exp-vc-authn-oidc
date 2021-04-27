@@ -1,0 +1,133 @@
+@startuml vc-authn-oidc
+allow_mixing
+
+'Référence graphique
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!define AzurePuml https://raw.githubusercontent.com/plantuml-stdlib/Azure-PlantUML/release/2-1/dist
+!includeurl AzurePuml/AzureCommon.puml
+!includeurl AzurePuml/AzureSimplified.puml
+!includeurl AzurePuml/Identity/AzureActiveDirectory.puml
+!includeurl AWSPuml/AWSCommon.puml
+!includeurl AWSPuml/AWSSimplified.puml
+!includeurl AWSPuml/General/Users.puml
+!includeurl AWSPuml/General/MobileClient.puml
+!includeurl AWSPuml/General/InternetAlt2.puml
+!includeurl AWSPuml/General/Client.puml
+!includeurl AWSPuml/Blockchain/Blockchain.puml
+!includeurl AWSPuml/Database/RDSPostgreSQLinstance.puml
+!includeurl AWSPuml/GroupIcons/Cloud.puml
+!includeurl AWSPuml/SecurityIdentityAndCompliance/IAMDataEncryptionKey.puml
+
+'Composants du graphique
+Users(utilisateur, "Utilisateurs", "Laboratoire")
+Client(ordi, "Ordinateur", "")
+MobileClient(cell, "Mobile", "appareil de l'utilisteur") #LightBlue
+IAMDataEncryptionKey(vc, "Attestation d'identitée vérifiable", "Attestation d'authentification") #LightBlue
+InternetAlt2(internet, "Internet", "")
+Blockchain(dlt, "Chaîne de bloc", "Registre de sceau") #LightGreen
+RDSPostgreSQLinstance(kms, "Key management store", "") #LightGreen
+AzureActiveDirectory(ad, "Active Directory", "Règle d'autorisation") #LightGreen
+
+object "Identity Service Interface" as ISI #LightGreen {
+    Keycloak
+    Realm: OpenShift
+    Identity Provider: Verifiable Credential
+    User Federation: Active Directory
+}
+
+object "Identity Provider Controller" as IPController #LightGreen {
+    vc-authn-oidc
+    ---
+    Connection-less QR code
+    <img src="../images/barcode-scan.svg">
+}
+
+object "Edge Agent ARIES" as agent #LightGreen {
+    DID Public
+    Label : Preuve d'accès au Laboratoire
+}
+
+object "Mediator Agent ARIES" as agentmed #LightBlue
+
+'Interaction du graphique
+utilisateur -- ordi
+utilisateur -- cell
+vc --> cell
+cell <--> agentmed
+agent <--> agentmed
+ordi -- internet
+cell -- internet
+
+internet -- ISI
+ISI --> ad
+ISI -down-> IPController : Verifiable Credential Identity Provider
+ISI <-down- IPController : jeton OIDC
+IPController <-down-> agent
+agent --> kms
+agent -down-> dlt :  Vérifier l'authenticité
+agent -down-> dlt :  Vérifier la révocation
+
+
+@enduml
+
+@startuml vc-authn-issuer
+allow_mixing
+
+'Référence graphique
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!define AzurePuml https://raw.githubusercontent.com/plantuml-stdlib/Azure-PlantUML/release/2-1/dist
+!includeurl AzurePuml/AzureCommon.puml
+!includeurl AzurePuml/AzureSimplified.puml
+!includeurl AzurePuml/Identity/AzureActiveDirectory.puml
+!includeurl AWSPuml/AWSCommon.puml
+!includeurl AWSPuml/AWSSimplified.puml
+!includeurl AWSPuml/General/Users.puml
+!includeurl AWSPuml/General/MobileClient.puml
+!includeurl AWSPuml/General/InternetAlt2.puml
+!includeurl AWSPuml/General/Client.puml
+!includeurl AWSPuml/Blockchain/Blockchain.puml
+!includeurl AWSPuml/Database/RDSPostgreSQLinstance.puml
+!includeurl AWSPuml/GroupIcons/Cloud.puml
+!includeurl AWSPuml/SecurityIdentityAndCompliance/IAMDataEncryptionKey.puml
+
+'Composants du graphique
+Users(utilisateur, "Utilisateurs", "Laboratoire")
+Client(ordi, "Ordinateur", "")
+MobileClient(cell, "Mobile", "appareil de l'utilisteur") #LightBlue
+IAMDataEncryptionKey(vc, "Attestation d'identitée vérifiable", "Attestation d'authentification") #LightBlue
+InternetAlt2(internet, "Internet", "")
+Blockchain(dlt, "Chaîne de bloc", "Registre de sceau") #LightGreen
+RDSPostgreSQLinstance(kms, "Key management store", "") #LightGreen
+AzureActiveDirectory(ad, "Active Directory", "Règle d'autorisation") #LightGreen
+
+object "Issuer Controller" as issuerController #LightGreen {
+    vc-authn-issuer
+    ---
+    Connection QR code
+    <img src="../images/barcode-scan.svg">
+}
+
+object "Edge Agent ARIES" as agent #LightGreen {
+    DID Public
+    Label : Preuve d'accès au Laboratoire
+}
+
+object "Mediator Agent ARIES" as agentmed #LightBlue
+
+'Interaction du graphique
+utilisateur -- ordi
+utilisateur -- cell
+cell <--> agentmed
+ordi -- internet
+cell -- internet
+agent -right-> vc
+vc -right-> agentmed
+
+internet -- issuerController
+issuerController -left-> ad
+issuerController <-down-> agent
+agent --> kms
+cell -down-> dlt :  Vérifier l'authenticité
+
+
+@enduml

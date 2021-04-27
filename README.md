@@ -62,8 +62,45 @@ Le résultat final pour une partie utilisatrice est le même qu'avec le flux Ope
 * [VSCode](https://code.visualstudio.com)
 * [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome)
 
-### Déploiment
+### Déploiement
 Voir les instructions de [déploiment sur OpenShift](openshift/templates/README.md).
+
+### 3.1 Conditions initiales et prémisses
+
+- Un (1) portefeuille numérique appartenant à l'utilisateur est disponible, sur lequel son attestation d'identité vérifiable est émise;
+
+- Un répertoire distribué identitaire se conformant au _framework_
+  _ARIES_ est en place et permet d\'émettre des attestations ainsi que les schémas associés;
+
+- Un émetteur d\'attestation représentant l\'organisme qui octroie l'accès est en place;
+
+- Un consommateur d\'attestation est en place à travers le service d'authentification représenté par le fournisseur d\'identité;
+
+- Une vérification d'identité n'est pas requise pour émettre l'attestation d'identité dans la démo;
+
+- Les notifications et publications entre les intervenants ne sont pas de la portée de l\'expérimentation. On assume qu\'elles sont exécutées de manière appropriée lorsque mentionnées;
+
+- L'organisme émetteur consigne la relation entre l'utilisateur et son organisme dans le répertoire d'accès.
+
+Voici l\'architecture des composants nécessaires à haut niveau pour émettre une attestation d\'identité vérifiable à un utilisateur.
+
+<p align="center">
+  <img src="images/vc-authn-issuer.png" label="Environnement de test" />
+
+  <br>
+  <b>Émission de l'attestation d'identité vérifiable à l'utilisateur</b>
+</p>
+
+---
+
+Voici l\'architecture des composants nécessaires à haut niveau pour consommer l\'attestation d\'identité vérifiable d\'un utilisateur via une authentification OpenID Connect.
+
+<p align="center">
+  <img src="images/vc-authn-oidc.png" label="Environnement de test" />
+
+  <br>
+  <b>Consommation de l'attestation d'identité vérifiable via une authentification OpenID Connect</b>
+</p>
 
 ## 4.0 Démarche
 
