@@ -1,3 +1,6 @@
+# Émetteur d'attestation d'identitée vérifiable pour l'authentification
+Cette application implémente un émetteur d'attestation d'identité vérifiable permettant l'authentification.
+
 ### Construit avec
 * [C#](https://fr.reactjs.org), [React](https://fr.reactjs.org)
 
