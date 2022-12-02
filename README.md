@@ -1,5 +1,14 @@
 [![img](https://img.shields.io/badge/Cycle%20de%20Vie-Phase%20d%C3%A9couverte-339999)](https://www.quebec.ca/gouv/politiques-orientations/vitrine-numeriqc/accompagnement-des-organismes-publics/demarche-conception-services-numeriques)
 [![License](https://img.shields.io/badge/Licence-LiLiQ--R-blue)](LICENSE)
+
+---
+
+<div>
+    <a target="_blank" href="https://www.quebec.ca/gouvernement/ministere/cybersecurite-numerique">
+      <img src="https://github.com/CQEN-QDCE/.github/blob/main/images/mcn.png" alt="Logo du Ministère de la cybersécurité et du numérique" />
+    </a>
+</div>
+
 # Authentification par attestation d'identité vérifiable via OpenID Connect
 Voici les travaux réalisés dans le cadre d'une expérimentation basée sur le concept de l'identité numérique. Le sujet: l'émission d'une [attestation d'identité vérifiable](https://www.w3.org/TR/vc-data-model) permettant l'authentification via [OpenID Connect](https://openid.net/connect). 
 ## Table des matières
